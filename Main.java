@@ -18,6 +18,19 @@ public class Main {
         });
 
 
+
+        /*EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Gui1 frame = new Gui1();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });*/
+
+
         //C:\Users\..username..\Desktop\Univer\pgu\other
        /*
         BufferedReader reader1 = new BufferedReader(new FileReader("C:\\Users\\Lankayylas\\Desktop\\Univer\\pgu\\other\\test_01.txt"));
