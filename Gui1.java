@@ -2,11 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Gui1 extends JFrame {
     private JPanel panel;
@@ -48,16 +44,19 @@ public class Gui1 extends JFrame {
 
         panel.add(Box.createRigidArea(new Dimension(10, 10)));
 
-        JButton button1 = new JButton("Показать JFileChooser");
-        button1.setAlignmentX(LEFT_ALIGNMENT);
+        JButton path_button1 = new JButton("Показать JFileChooser");
+        path_button1.setAlignmentX(LEFT_ALIGNMENT);
 
-        JButton button2 = new JButton("Показать JFileChooser");
-        button2.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton path_button2 = new JButton("Показать JFileChooser");
+        path_button2.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton button3 = new JButton("Сравнить");
-        button3.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton compare_button = new JButton("Сравнить");
+        compare_button.setAlignmentX(RIGHT_ALIGNMENT);
 
-        button1.addActionListener(new ActionListener() {
+        JButton mdx_button = new JButton("Запуск MDX");
+        mdx_button.setAlignmentX(RIGHT_ALIGNMENT);
+
+        path_button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileopen = new JFileChooser();
                 int ret = fileopen.showDialog(null, "Открыть файл");
@@ -69,7 +68,7 @@ public class Gui1 extends JFrame {
             }
         });
 
-        button2.addActionListener(new ActionListener() {
+        path_button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileopen = new JFileChooser();
                 int ret = fileopen.showDialog(null, "Открыть файл");
@@ -81,7 +80,7 @@ public class Gui1 extends JFrame {
             }
         });
 
-        button3.addActionListener(new ActionListener() {
+        compare_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 try {
@@ -131,13 +130,41 @@ public class Gui1 extends JFrame {
             }
         });
 
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
+        mdx_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                try {
+                    Process p = Runtime.getRuntime().exec(
+                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/other/schema-workbench/workbench.bat");
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        /*pgadmin_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                try {
+                    Process p = Runtime.getRuntime().exec(
+                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/other/schema-workbench/workbench.bat");
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });*/
+
+        panel.add(path_button1);
+        panel.add(path_button2);
+        panel.add(compare_button);
+        panel.add(mdx_button);
+        //panel.add(pgadmin_button);
         panel.add(Box.createVerticalGlue());
         getContentPane().add(panel);
 
-        setPreferredSize(new Dimension(400, 300));
+        setPreferredSize(new Dimension(600, 500));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
