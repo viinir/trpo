@@ -28,7 +28,7 @@ public class Gui1 extends JFrame {
         //this.getContentPane().add(panel);
         //this.button1.addActionListener(new MyButtonListener());
 
-        super("Тестовое окно");
+        super("GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
@@ -43,37 +43,41 @@ public class Gui1 extends JFrame {
         panel.add(clients, "name_714431450350356");  // MOVED UP
         clients.setLayout(null);  // MOVED UP*/
 
-        JButton helpButton = new JButton("Помощь");
+        //JButton helpButton = new JButton("Помощь");
 
 
         final JLabel label1 = new JLabel("Выбранный файл");
-        label1.setAlignmentX(LEFT_ALIGNMENT);
+        //label1.setAlignmentX(LEFT_ALIGNMENT);
 
         final JLabel label2 = new JLabel("Выбранный файл");
-        label2.setAlignmentX(RIGHT_ALIGNMENT);
+        //label2.setAlignmentX(RIGHT_ALIGNMENT);
 
 
 
 
-        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+        //panel.add(Box.createRigidArea(new Dimension(10, 10)));
 
         JButton path_button1 = new JButton("Файл 1");
-        path_button1.setAlignmentX(LEFT_ALIGNMENT);
+        //path_button1.setAlignmentX(LEFT_ALIGNMENT);
 
         JButton path_button2 = new JButton("Файл 2");
-        path_button2.setAlignmentX(RIGHT_ALIGNMENT);
+        //path_button2.setAlignmentX(RIGHT_ALIGNMENT);
 
         JButton compare_button = new JButton("Сравнить");
-        compare_button.setAlignmentX(RIGHT_ALIGNMENT);
+        //compare_button.setAlignmentX(RIGHT_ALIGNMENT);
 
         JButton mdx_button = new JButton("Запуск MDX");
-        mdx_button.setAlignmentX(RIGHT_ALIGNMENT);
+        //mdx_button.setAlignmentX(RIGHT_ALIGNMENT);
 
         JButton saiku_button = new JButton("Запуск Saiku");
-        saiku_button.setAlignmentX(RIGHT_ALIGNMENT);
+        //saiku_button.setAlignmentX(RIGHT_ALIGNMENT);
 
         JButton pgadmin_button = new JButton("Запуск СУБД");
-        pgadmin_button.setAlignmentX(RIGHT_ALIGNMENT);
+        //pgadmin_button.setAlignmentX(RIGHT_ALIGNMENT);
+
+        JButton help_button = new JButton("Помощь");
+
+        JButton compareResults_button = new JButton("Результаты");
 
         /*JButton help_button = new JButton("Помощь");
         help_button.setAlignmentX(RIGHT_ALIGNMENT);*/
@@ -208,7 +212,7 @@ public class Gui1 extends JFrame {
                         "What is your name?", null);
             }
         });*/
-        JButton help_button = new JButton("Помощь");
+
         help_button.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -216,6 +220,22 @@ public class Gui1 extends JFrame {
                 createFrame();
             }
         });
+
+
+        compareResults_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                try {
+                    Process p = Runtime.getRuntime().exec(
+                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/other/output.txt");
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        panel.setLayout(null);
 
         panel.add(label1);
         panel.add(help_button);
@@ -227,16 +247,19 @@ public class Gui1 extends JFrame {
         panel.add(saiku_button);
         panel.add(pgadmin_button);
         panel.add(help_button);
+        panel.add(compareResults_button);
 
-        label1.setBounds(230, 25, 300, 30);
-        label2.setBounds(230, 75, 300, 30);
-        path_button1.setBounds(50, 25, 100, 30);
-        path_button2.setBounds(50, 75, 100, 30);
-        compare_button.setBounds(50, 12, 100, 30);
-        mdx_button.setBounds(50, 200, 150, 30);
-        saiku_button.setBounds(250, 200, 150, 30);
-        pgadmin_button.setBounds(50, 300, 150, 30);
-        panel.add(Box.createVerticalGlue());
+        label1.setBounds(150, 25, 300, 30);
+        label2.setBounds(150, 75, 300, 30);
+        path_button1.setBounds(20, 25, 100, 30);
+        path_button2.setBounds(20, 75, 100, 30);
+        compare_button.setBounds(20, 125, 100, 30);
+        mdx_button.setBounds(20, 200, 150, 30);
+        saiku_button.setBounds(190, 200, 150, 30);
+        pgadmin_button.setBounds(20, 250, 150, 30);
+        help_button.setBounds(360,320,100,30);
+        compareResults_button.setBounds(220,125,120,30);
+        //panel.add(Box.createVerticalGlue());
         getContentPane().add(panel);
 
 
@@ -260,7 +283,7 @@ public class Gui1 extends JFrame {
         clients.add(btnHome);*/
 
 
-        setPreferredSize(new Dimension(550, 450));
+        setPreferredSize(new Dimension(500, 400));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -287,7 +310,51 @@ public class Gui1 extends JFrame {
                 JPanel panel = new JPanel();
                 //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
                 panel.setOpaque(true);
-                JTextArea textArea = new JTextArea("Help",50,100);
+                JTextArea textArea = new JTextArea("" +
+                        "OLAP (англ. online analytical processing, интерактивная аналитическая обработка) — технология обработки данных, заключающаяся в подготовке\n" +
+                        " суммарной (агрегированной) информации на основе больших массивов данных, структурированных по многомерному принципу. Реализации технологии\n" +
+                        " OLAP являются компонентами программных решений класса Business Intelligence.\n" +
+                        "OLAP-структура, созданная из рабочих данных, называется OLAP-куб. Куб создаётся из соединения таблиц с применением схемы звезды или схемы\n" +
+                        " снежинки. В центре схемы звезды находится таблица фактов, которая содержит ключевые факты, по которым делаются запросы. Множественные\n" +
+                        "таблицы с измерениями присоединены к таблице фактов. Эти таблицы показывают, как могут анализироваться агрегированные[en] реляционные\n" +
+                        "данные. Количество возможных агрегирований определяется количеством способов, которыми первоначальные данные могут быть иерархически\n" +
+                        "отображены.\n" +
+                        "\n" +
+                        "The Mondrian Schema Workbench allows you to visually create and test Mondrian OLAP cube\n" +
+                        "schemas.\n" +
+                        "It provides the following functionality:\n" +
+                        "• Schema editor integrated with the underlying data source for validation. (See above)\n" +
+                        "• Test MDX queries against schema and database\n" +
+                        "• Browse underlying databases structure\n" +
+                        "See more: https://mondrian.pentaho.com/documentation/schema_workbench.pdf\n" +
+                        "\n" +
+                        "Saiku allows business users to explore complex data sources, using a familiar drag and drop interface and easy to understand business\n" +
+                        "terminology, all within a browser. Select the data you are interested in, look at it from different perspectives, drill into the detail.\n" +
+                        " Once you have your answer, save your results, share them, export them to Excel or PDF, all straight from the browser. Saiku connects to\n" +
+                        "a wide range of data sources allowing you to explore the data in real-time directly from the source.\n" +
+                        "See more: https://www.meteorite.bi/products/saiku\n" +
+                        "\n" +
+                        "Назначение языка MDX (Multidimensional Expressions) — предоставить в распоряжение разработчиков средство для более простого и эффективного\n" +
+                        " доступа к многомерным структурам данных. В Microsoft SQL Server 2000 Analysis Services язык MDX используется для формирования запросов и\n" +
+                        " описания алгоритмов получения вычисляемых значений.\n" +
+                        "Следует сказать, что язык MDX никак не связан с Microsoft SQL Server 2000 Analysis Services, а является частью спецификации OLE DB for\n" +
+                        "OLAP и, таким образом, поддерживается на уровне провайдера доступа к данным (OLE DB-провайдера), а не самого OLAP-хранилища. Этот язык\n" +
+                        "можно сравнить с языком SQL. Но если SQL используется для извлечения реляционных данных, то MDX служит для извлечения многомерных данных. \n" +
+                        "\n" +
+                        "Синтаксис языка MDX\n" +
+                        "Запрос на языке MDX представляет собой набор команд, который выглядит следующим образом:\n" +
+                        "\n" +
+                        "SELECT [<axis_specification>\n" +
+                        "       [, <axis_specification>...]]\n" +
+                        "  FROM [<cube_specification>]\n" +
+                        "[WHERE\n" +
+                        "[<slicer_specification>]]\n" +
+                        "где:\n" +
+                        "\n" +
+                        "axis_specification — содержит описание осей куба;\n" +
+                        "cube_specification — содержит название куба;\n" +
+                        "slicer_specification — содержит описание срезов куба.",
+                        50,100);
                 textArea.setWrapStyleWord(true);
                 textArea.setEditable(false);
                 textArea.setFont(Font.getFont(Font.SANS_SERIF));
