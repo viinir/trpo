@@ -4,58 +4,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.Scanner;
 
 public class Gui1 extends JFrame {
-    private JPanel contentPane;
-    private JButton button1;
-    private JTextField textField1;
-    private JPasswordField passwordField1;
 
-
-    /*private class MyButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent actionevent) {
-            if (textField1.getText().equals(passwordField1.getText())) {
-                JOptionPane.showMessageDialog(null,"Success!");
-            } else {
-                JOptionPane.showMessageDialog(null,"Failure!");
-            }
-        }
-    }*/
+    String MDX_address, PGADMIN_address, SAIKU_address;
 
     public Gui1() {
-        //this.getContentPane().add(panel);
-        //this.button1.addActionListener(new MyButtonListener());
-
         super("GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS    ));
-
-
-        /*final JPanel panel = new JPanel();
-        panel.add(contentPane, "name_714429679706141");
-        panel.setLayout(null);
-
-        final JPanel clients = new JPanel();  // MOVED UP
-        panel.add(clients, "name_714431450350356");  // MOVED UP
-        clients.setLayout(null);  // MOVED UP*/
-
-        //JButton helpButton = new JButton("Помощь");
-
-
         final JLabel label1 = new JLabel("Выбранный файл");
         //label1.setAlignmentX(LEFT_ALIGNMENT);
-
         final JLabel label2 = new JLabel("Выбранный файл");
         //label2.setAlignmentX(RIGHT_ALIGNMENT);
-
-
-
-
-        //panel.add(Box.createRigidArea(new Dimension(10, 10)));
 
         JButton path_button1 = new JButton("Файл 1");
         //path_button1.setAlignmentX(LEFT_ALIGNMENT);
@@ -75,12 +37,13 @@ public class Gui1 extends JFrame {
         JButton pgadmin_button = new JButton("Запуск СУБД");
         //pgadmin_button.setAlignmentX(RIGHT_ALIGNMENT);
 
+        JButton pgadmin_adress_button = new JButton(".exe path");
+        JButton mdx_adress_button = new JButton(".exe path");
+        JButton saiku_adress_button = new JButton(".exe path");
+
         JButton help_button = new JButton("Помощь");
 
         JButton compareResults_button = new JButton("Результаты");
-
-        /*JButton help_button = new JButton("Помощь");
-        help_button.setAlignmentX(RIGHT_ALIGNMENT);*/
 
         path_button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -110,9 +73,6 @@ public class Gui1 extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-
-                    //PrintStream fileStream = new PrintStream("C:/Users/Lankayylas/Desktop/Univer/pgu/other/output.txt");
-
                     BufferedReader reader1 = new BufferedReader(new FileReader(label1.getText()));
                     BufferedReader reader2 = new BufferedReader(new FileReader(label2.getText()));
                     String line1 = reader1.readLine();
@@ -121,12 +81,12 @@ public class Gui1 extends JFrame {
                     boolean areEqual = true;
                     int lineNum = 1, lineTotal = 1;
 
-                    PrintStream ps = new PrintStream("C:/Users/Lankayylas/Desktop/Univer/pgu/other/output.txt");
+                    //res
+                    PrintStream ps = new PrintStream("Comparison_results.txt");
                     PrintStream orig = System.out;
 
                     do
                     {
-                        //System.out.println("line1: "+line1); System.out.println("line2: "+line2);
                         System.setOut(ps);
                         if(line2 == null)
                         {
@@ -146,7 +106,6 @@ public class Gui1 extends JFrame {
                         line1 = reader1.readLine();
                         line2 = reader2.readLine();
                         lineNum++;
-                        //System.out.println("lineNum: "+lineNum);
                     } while (line1 != null);
                     if (lineNum == lineTotal)
                     {
@@ -168,12 +127,28 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
+                Path path = new Path();
+                MDX_address = path.getMDXPath();
                 try {
                     Process p = Runtime.getRuntime().exec(
-                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/other/schema-workbench/workbench.bat");
+                            "cmd /c start "+ MDX_address);
                 } catch (IOException e){
                     e.printStackTrace();
                 }
+            }
+        });
+
+        mdx_adress_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                Path path = new Path();
+                MDX_address = JOptionPane.showInputDialog(null, "Введие адрес workbench.bat (прим.: C:/.../workbench.bat)",
+                        "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Вы ввели: "+ MDX_address,
+                        "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+
+                path.setMDXPath(MDX_address);
             }
         });
 
@@ -181,38 +156,60 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
+                Path path = new Path();
+                SAIKU_address = path.getSAIKUPath();
                 try {
                     Process p = Runtime.getRuntime().exec(
-                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/saiku-server/start-saiku.bat");
+                            "cmd /c start "+ SAIKU_address);
                 } catch (IOException e){
                     e.printStackTrace();
                 }
             }
         });
 
-        //C:\Users\Lankayylas\Desktop\Univer\pgu\saiku-server\start-saiku.bat
+        saiku_adress_button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                Path path = new Path();
+                SAIKU_address = JOptionPane.showInputDialog(null, "Введие адрес start-saiku.bat (прим.: C:/.../start-saiku.bat",
+                        "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Вы ввели: "+ SAIKU_address,
+                        "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+
+                path.setSaikuPath(SAIKU_address);
+            }
+        });
 
         pgadmin_button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
+                Path path = new Path();
+                PGADMIN_address = path.getPgAdminPath();
                 try {
-                    Process process = new ProcessBuilder("C:\\Program Files\\PostgreSQL\\10\\pgAdmin 4\\bin\\pgAdmin4.exe").start();
-                    //Process p = Runtime.getRuntime().exec(new String[] {"cmd", "/c", "start", "C:\\Program Files\\PostgreSQL\\10\\pgAdmin 4\\bin\\pgAdmin4.exe"});
+                    Process process = new ProcessBuilder(PGADMIN_address).start();
+                    /*Process p = Runtime.getRuntime().exec(
+                            "cmd /c start "+PGADMIN_address);*/
                 } catch (IOException e){
                     e.printStackTrace();
                 }
             }
         });
 
-        /*help_button.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String name = JOptionPane.showInputDialog(parent,
-                        "What is your name?", null);
-            }
-        });*/
+        pgadmin_adress_button.addActionListener(new ActionListener() {
 
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                Path path = new Path();
+                PGADMIN_address = JOptionPane.showInputDialog(null, "Введие адрес pgAdmin4.exe (прим.: по 2 знака \\ вместо 1: C:\\\\Program Files\\\\...\\\\pgAdm+in4.exe)",
+                        "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Вы ввели: "+ PGADMIN_address,
+                        "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+
+                path.setPgAdminPath(PGADMIN_address);
+            }
+        });
         help_button.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -221,14 +218,13 @@ public class Gui1 extends JFrame {
             }
         });
 
-
         compareResults_button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
                 try {
-                    Process p = Runtime.getRuntime().exec(
-                            "cmd /c start C:/Users/Lankayylas/Desktop/Univer/pgu/other/output.txt");
+                    //BufferedReader reader = new BufferedReader(new FileReader("resources/Comparison_results.txt"));
+                    Process p = Runtime.getRuntime().exec("cmd /c start Comparison_results.txt");
                 } catch (IOException e){
                     e.printStackTrace();
                 }
@@ -248,6 +244,9 @@ public class Gui1 extends JFrame {
         panel.add(pgadmin_button);
         panel.add(help_button);
         panel.add(compareResults_button);
+        panel.add(pgadmin_adress_button);
+        panel.add(mdx_adress_button);
+        panel.add(saiku_adress_button);
 
         label1.setBounds(150, 25, 300, 30);
         label2.setBounds(150, 75, 300, 30);
@@ -255,42 +254,21 @@ public class Gui1 extends JFrame {
         path_button2.setBounds(20, 75, 100, 30);
         compare_button.setBounds(20, 125, 100, 30);
         mdx_button.setBounds(20, 200, 150, 30);
-        saiku_button.setBounds(190, 200, 150, 30);
+        saiku_button.setBounds(20, 300, 150, 30);
         pgadmin_button.setBounds(20, 250, 150, 30);
         help_button.setBounds(360,320,100,30);
         compareResults_button.setBounds(220,125,120,30);
+        pgadmin_adress_button.setBounds(180, 250, 100, 30);
+        mdx_adress_button.setBounds(180, 200, 100, 30);
+        saiku_adress_button.setBounds(180, 300, 100, 30);
         //panel.add(Box.createVerticalGlue());
         getContentPane().add(panel);
-
-
-        /*helpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                panel.setVisible(false);
-                clients.setVisible(true);
-            }
-        });
-        helpButton.setBounds(350, 300, 100, 30);
-        panel.add(helpButton);
-
-        JButton btnHome = new JButton("Home");
-        btnHome.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                clients.setVisible(false);
-                panel.setVisible(true);
-            }
-        });
-        btnHome.setBounds(169, 107, 89, 23);
-        clients.add(btnHome);*/
-
 
         setPreferredSize(new Dimension(500, 400));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-
-
 
     public static void createFrame()
     {
