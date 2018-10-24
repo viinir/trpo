@@ -8,42 +8,57 @@ import java.io.*;
 public class Gui1 extends JFrame {
 
     String MDX_address, PGADMIN_address, SAIKU_address;
+    JPanel panel, panelhelp;
+    JTextArea textArea;
+    JLabel label1, label2;
+    JButton path_button1, path_button2, compare_button, mdx_button, saiku_button, pgadmin_button, pgadmin_adress_button;
+    JButton mdx_adress_button, saiku_adress_button, help_button, compareResults_button;
+    JFrame frame;
+    Path path;
+    BufferedReader reader1, reader2;
+    String line1, line2;
+    int token = 1;
 
     public Gui1() {
         super("GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        final JLabel label1 = new JLabel("Выбранный файл");
+        panel = new JPanel();
+        label1 = new JLabel("Выбранный файл");
         //label1.setAlignmentX(LEFT_ALIGNMENT);
-        final JLabel label2 = new JLabel("Выбранный файл");
+        label2 = new JLabel("Выбранный файл");
         //label2.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton path_button1 = new JButton("Файл 1");
+        path_button1 = new JButton("Файл 1");
         //path_button1.setAlignmentX(LEFT_ALIGNMENT);
 
-        JButton path_button2 = new JButton("Файл 2");
+        path_button2 = new JButton("Файл 2");
         //path_button2.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton compare_button = new JButton("Сравнить");
+        compare_button = new JButton("Сравнить");
         //compare_button.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton mdx_button = new JButton("Запуск MDX");
+        mdx_button = new JButton("Запуск MDX");
         //mdx_button.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton saiku_button = new JButton("Запуск Saiku");
+        saiku_button = new JButton("Запуск Saiku");
         //saiku_button.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton pgadmin_button = new JButton("Запуск СУБД");
+        pgadmin_button = new JButton("Запуск СУБД");
         //pgadmin_button.setAlignmentX(RIGHT_ALIGNMENT);
 
-        JButton pgadmin_adress_button = new JButton(".exe path");
-        JButton mdx_adress_button = new JButton(".exe path");
-        JButton saiku_adress_button = new JButton(".exe path");
+        pgadmin_adress_button = new JButton(".exe path");
+        mdx_adress_button = new JButton(".exe path");
+        saiku_adress_button = new JButton(".exe path");
 
-        JButton help_button = new JButton("Помощь");
+        help_button = new JButton("Помощь");
 
-        JButton compareResults_button = new JButton("Результаты");
+        compareResults_button = new JButton("Результаты");
+
+        path = new Path();
+        MDX_address = path.getMDXPath();
+        SAIKU_address = path.getSAIKUPath();
+        PGADMIN_address = path.getPgAdminPath();
 
         path_button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -73,10 +88,11 @@ public class Gui1 extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    BufferedReader reader1 = new BufferedReader(new FileReader(label1.getText()));
-                    BufferedReader reader2 = new BufferedReader(new FileReader(label2.getText()));
-                    String line1 = reader1.readLine();
-                    String line2 = reader2.readLine();
+                    reader1 = new BufferedReader(new FileReader(label1.getText()));
+                    reader2 = new BufferedReader(new FileReader(label2.getText()));
+                    line1 = reader1.readLine();
+                    line2 = reader2.readLine();
+
 
                     boolean areEqual = true;
                     int lineNum = 1, lineTotal = 1;
@@ -99,7 +115,7 @@ public class Gui1 extends JFrame {
                         {
                             areEqual = false;
                             System.out.println("Two files have different content. They differ at line "+lineNum);
-                            System.out.println(label1.getText()+" has "+line1+" and "+label2.getText()+" has "+line2+" at line "+lineNum);
+                            System.out.println(/*label1.getText()+*/label1.getName()+" has "+line1+" and "+/*label2.getText()+*/label2.getName()+" has "+line2+" at line "+lineNum);
 
                         } else if (line1.equals(line2)) {lineTotal++; /*System.out.println("lineTotal: "+lineTotal);*/}
 
@@ -127,8 +143,6 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
-                MDX_address = path.getMDXPath();
                 try {
                     Process p = Runtime.getRuntime().exec(
                             "cmd /c start "+ MDX_address);
@@ -142,11 +156,11 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
-                MDX_address = JOptionPane.showInputDialog(null, "Введие адрес workbench.bat (прим.: C:/.../workbench.bat)",
-                        "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
-                JOptionPane.showMessageDialog(null, "Вы ввели: "+ MDX_address,
-                        "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+                path = new Path();
+                    MDX_address = JOptionPane.showInputDialog(null, "Введие адрес workbench.bat (прим.: C:/.../workbench.bat)",
+                            "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Вы ввели: " + MDX_address,
+                            "Message Dialog", JOptionPane.PLAIN_MESSAGE);
 
                 path.setMDXPath(MDX_address);
             }
@@ -156,8 +170,7 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
-                SAIKU_address = path.getSAIKUPath();
+
                 try {
                     Process p = Runtime.getRuntime().exec(
                             "cmd /c start "+ SAIKU_address);
@@ -171,7 +184,7 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
+                path = new Path();
                 SAIKU_address = JOptionPane.showInputDialog(null, "Введие адрес start-saiku.bat (прим.: C:/.../start-saiku.bat",
                         "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
                 JOptionPane.showMessageDialog(null, "Вы ввели: "+ SAIKU_address,
@@ -185,8 +198,7 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
-                PGADMIN_address = path.getPgAdminPath();
+
                 try {
                     Process process = new ProcessBuilder(PGADMIN_address).start();
                     /*Process p = Runtime.getRuntime().exec(
@@ -201,7 +213,7 @@ public class Gui1 extends JFrame {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                Path path = new Path();
+                path = new Path();
                 PGADMIN_address = JOptionPane.showInputDialog(null, "Введие адрес pgAdmin4.exe (прим.: по 2 знака \\ вместо 1: C:\\\\Program Files\\\\...\\\\pgAdm+in4.exe)",
                         "Ввод адреса", JOptionPane.PLAIN_MESSAGE);
                 JOptionPane.showMessageDialog(null, "Вы ввели: "+ PGADMIN_address,
@@ -270,14 +282,9 @@ public class Gui1 extends JFrame {
         setVisible(true);
     }
 
-    public static void createFrame()
+    public void createFrame()
     {
-        EventQueue.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                JFrame frame = new JFrame("Help");
+                frame = new JFrame("Help");
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 try
                 {
@@ -285,10 +292,10 @@ public class Gui1 extends JFrame {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                JPanel panel = new JPanel();
+                panelhelp = new JPanel();
                 //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-                panel.setOpaque(true);
-                JTextArea textArea = new JTextArea("" +
+                panelhelp.setOpaque(true);
+                textArea = new JTextArea("" +
                         "OLAP (англ. online analytical processing, интерактивная аналитическая обработка) — технология обработки данных, заключающаяся в подготовке\n" +
                         " суммарной (агрегированной) информации на основе больших массивов данных, структурированных по многомерному принципу. Реализации технологии\n" +
                         " OLAP являются компонентами программных решений класса Business Intelligence.\n" +
@@ -345,18 +352,18 @@ public class Gui1 extends JFrame {
                 //JButton button = new JButton("Enter");
                 DefaultCaret caret = (DefaultCaret) textArea.getCaret();
                 caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-                panel.add(scroller);
+                panelhelp.add(scroller);
                 inputpanel.add(input);
                 //inputpanel.add(button);
                 //panel.add(inputpanel);
-                frame.getContentPane().add(BorderLayout.CENTER, panel);
+                frame.getContentPane().add(BorderLayout.CENTER, panelhelp);
                 frame.pack();
                 frame.setLocationByPlatform(true);
                 frame.setVisible(true);
                 frame.setResizable(false);
                 input.requestFocus();
             }
-        });
-    }
+
+
 }
 

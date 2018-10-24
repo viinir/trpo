@@ -1,0 +1,9 @@
+Two files have different content. They differ at line 1
+test_01 has Abhi 71 and test_02 has Abhi 50 at line 1
+Two files have different content. They differ at line 4
+test_01 has Vikas 92 and test_02 has Nalini 75 at line 4
+Two files have different content. They differ at line 6
+test_01 has Shyam 81 and test_02 has Kaya 44 at line 6
+Two files have different content. They differ at line 7
+test_01 has Suresh 56 and test_02 has Siya 56 at line 7
+Reached end of file2 before file1 ended as well.
